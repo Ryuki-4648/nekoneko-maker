@@ -8,24 +8,21 @@ defineProps({
 </script>
 
 <template>
-  <div class="greetings">
-    <h1 class="green">{{ msg }}</h1>
-    <h3>
-      h3 tag
-    </h3>
-  </div>
+  <h1 class="green">{{ msg }}</h1>
+  <h2>自分だけのオリジナルねこをつくろう。</h2>
 </template>
 
 <style scoped>
 h1 {
   font-weight: 500;
   font-size: 2.6rem;
-  position: relative;
-  top: -10px;
+  text-align: center;
 }
 
-h3 {
-  font-size: 1.2rem;
+h2 {
+  font-size: 1rem;
+  text-align: center;
+  margin: 0 auto 40px;
 }
 
 .greetings h1,
