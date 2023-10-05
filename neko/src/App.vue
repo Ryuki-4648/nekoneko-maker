@@ -7,6 +7,9 @@ const name = ref('');
 const rotate = ref(0);
 const catBodyColor = ref('#fafafa');
 const backgroundColor = ref('#fafafa');
+const showFood01 = ref(false);
+const showFood02 = ref(false);
+const showFood03 = ref(false);
 </script>
 <!-- script setup コンポーネントのロジックを設定 -->
 
@@ -18,7 +21,12 @@ const backgroundColor = ref('#fafafa');
   <main>
     <div>
       <PageTitle msg="ねこねこメーカー" />
-      <CatImageSVGComponent class="image-cat" />
+      <div class="area-cat">
+        <CatImageSVGComponent class="image-cat" />
+        <p v-if="showFood01">えさ１</p>
+        <p v-if="showFood02">えさ２</p>
+        <p v-if="showFood03">えさ３</p>
+      </div>
       <p v-bind:style="{ display: 'inline-block', catBodyColor: catBodyColor }"></p>
       <p class="text01"><span v-if="name">{{ name }} です！</span><span v-else>おなまえを入力してください。</span></p>
       <p><input type="text" v-model="name" class="input-name"></p>
@@ -39,15 +47,15 @@ const backgroundColor = ref('#fafafa');
         <p>エサを置く</p>
         <ul>
           <li>
-            <input type="checkbox" id="food01" name="scales" checked />
+            <input type="checkbox" id="food01" name="scales" checked v-model="showFood01" />
             <label for="food01">えさ1</label>
           </li>
           <li>
-            <input type="checkbox" id="food02" name="scales" checked />
+            <input type="checkbox" id="food02" name="scales" checked v-model="showFood02" />
             <label for="food02">えさ2</label>
           </li>
           <li>
-            <input type="checkbox" id="food03" name="scales" checked />
+            <input type="checkbox" id="food03" name="scales" checked v-model="showFood03" />
             <label for="food03">えさ3</label>
           </li>
         </ul>
@@ -105,6 +113,13 @@ header {
 .color-code {
   font-size: 13px;
 }
+.area-cat {
+  width: 320px;
+  height: 320px;
+  margin: 0 auto;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
 .area-turn, .area-food {
   margin: 0 auto 40px;
 }
@@ -115,5 +130,11 @@ input[type="color"] {
   height: 40px;
   cursor: pointer;
 }
-.cls-1{fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:6px;}
+.image-cat path {
+  fill:#fafafa;
+  stroke:#000;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  stroke-width:6px;
+}
 </style>
