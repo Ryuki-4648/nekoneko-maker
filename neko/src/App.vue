@@ -18,9 +18,7 @@ const backgroundColor = ref('#fafafa');
   <main>
     <div>
       <PageTitle msg="ねこねこメーカー" />
-      <template>
-        <CatImageSVGComponent />
-      </template>
+      <CatImageSVGComponent class="image-cat" />
       <p v-bind:style="{ display: 'inline-block', catBodyColor: catBodyColor }"></p>
       <p class="text01"><span v-if="name">{{ name }} です！</span><span v-else>おなまえを入力してください。</span></p>
       <p><input type="text" v-model="name" class="input-name"></p>
@@ -37,8 +35,22 @@ const backgroundColor = ref('#fafafa');
         <p class="color-code">カラーコード: {{ catBodyColor }}</p>
       </div>
 
-      <div>
+      <div class="area-food">
         <p>エサを置く</p>
+        <ul>
+          <li>
+            <input type="checkbox" id="food01" name="scales" checked />
+            <label for="food01">えさ1</label>
+          </li>
+          <li>
+            <input type="checkbox" id="food02" name="scales" checked />
+            <label for="food02">えさ2</label>
+          </li>
+          <li>
+            <input type="checkbox" id="food03" name="scales" checked />
+            <label for="food03">えさ3</label>
+          </li>
+        </ul>
       </div>
 
       <div class="area-color">
@@ -81,6 +93,8 @@ header {
 }
 .image-cat {
   margin: 0 auto 40px;
+  width: 200px;
+  height: 200px;
 }
 .text01 {
   margin: 0 auto 14px;
@@ -91,7 +105,7 @@ header {
 .color-code {
   font-size: 13px;
 }
-.area-turn {
+.area-turn, .area-food {
   margin: 0 auto 40px;
 }
 input[type="color"] {
