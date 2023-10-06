@@ -4,12 +4,20 @@ import { ref } from 'vue';
 import CatImageSVGComponent from './components/CatImage.vue'
 
 const name = ref('');
-const rotate = ref(0);
+// const rotate = ref(0);
 const catBodyColor = ref('#fafafa');
-const backgroundColor = ref('#fafafa');
+const backgroundColor = ref('#fee1e1');
 const showFood01 = ref(false);
 const showFood02 = ref(false);
 const showFood03 = ref(false);
+const resetButton = () => {
+  name.value = '';
+  catBodyColor.value = '#fafafa';
+  backgroundColor.value = '#fee1e1';
+  showFood01.value = false;
+  showFood02.value = false;
+  showFood03.value = false;
+}
 </script>
 <!-- script setup コンポーネントのロジックを設定 -->
 
@@ -21,8 +29,8 @@ const showFood03 = ref(false);
   <main>
     <div>
       <PageTitle msg="ねこねこメーカー" />
-      <div class="area-cat">
-        <CatImageSVGComponent class="image-cat" />
+      <div class="area-cat" v-bind:style="{backgroundColor: backgroundColor}">
+        <CatImageSVGComponent class="image-cat" v-bind:style="{fill: catBodyColor}" />
         <p v-if="showFood01">えさ１</p>
         <p v-if="showFood02">えさ２</p>
         <p v-if="showFood03">えさ３</p>
@@ -31,11 +39,11 @@ const showFood03 = ref(false);
       <p class="text01"><span v-if="name">{{ name }} です！</span><span v-else>おなまえを入力してください。</span></p>
       <p><input type="text" v-model="name" class="input-name"></p>
       
-      <div class="area-turn">
+      <!-- <div class="area-turn">
         <p>回してみる</p>
         <input type="range" name="range" v-model="rotate" min="0" step="0.01" max="1">
         <p>{{ rotate }} turn</p>
-      </div>
+      </div> -->
 
       <div class="area-color">
         <p class="text-picker">カラーピッカーで毛色を選択する</p>
@@ -66,6 +74,8 @@ const showFood03 = ref(false);
         <input type="color" name="color" v-model="backgroundColor">
         <p class="color-code">カラーコード: {{ backgroundColor }}</p>
       </div>
+
+      <button @click="resetButton">リセットする</button>
 
     </div>
   </main>
@@ -100,9 +110,12 @@ header {
   margin: 0 auto 60px;
 }
 .image-cat {
-  margin: 0 auto 40px;
+  position: absolute;
   width: 200px;
   height: 200px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 .text01 {
   margin: 0 auto 14px;
@@ -119,6 +132,7 @@ header {
   margin: 0 auto;
   padding: 10px;
   border: 1px solid #ddd;
+  position: relative;
 }
 .area-turn, .area-food {
   margin: 0 auto 40px;
