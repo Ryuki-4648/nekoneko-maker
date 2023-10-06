@@ -27,57 +27,63 @@ const resetButton = () => {
   </header>
 
   <main>
-    <div>
-      <PageTitle msg="ねこねこメーカー" />
-      <div class="area-cat" v-bind:style="{backgroundColor: backgroundColor}">
-        <CatImageSVGComponent class="image-cat" v-bind:style="{fill: catBodyColor}" />
-        <p v-if="showFood01">えさ１</p>
-        <p v-if="showFood02">えさ２</p>
-        <p v-if="showFood03">えさ３</p>
-      </div>
-      <p v-bind:style="{ display: 'inline-block', catBodyColor: catBodyColor }"></p>
-      <p class="text01"><span v-if="name">{{ name }} です！</span><span v-else>おなまえを入力してください。</span></p>
-      <p><input type="text" v-model="name" class="input-name"></p>
-      
-      <!-- <div class="area-turn">
-        <p>回してみる</p>
-        <input type="range" name="range" v-model="rotate" min="0" step="0.01" max="1">
-        <p>{{ rotate }} turn</p>
-      </div> -->
+    <PageTitle msg="ねこねこメーカー" />
 
-      <div class="area-color">
-        <p class="text-picker">カラーピッカーで毛色を選択する</p>
-        <input type="color" name="color" v-model="catBodyColor">
-        <p class="color-code">カラーコード: {{ catBodyColor }}</p>
-      </div>
+    <div class="content">
+      <section>
+        <div class="area-cat" v-bind:style="{backgroundColor: backgroundColor}">
+          <CatImageSVGComponent class="image-cat" v-bind:style="{fill: catBodyColor, stroke: '#000'}" />
+          <p v-if="showFood01" class="food01">えさ１</p>
+          <p v-if="showFood02" class="food02">えさ２</p>
+          <p v-if="showFood03" class="food03">えさ３</p>
+        </div>
+      </section>
 
-      <div class="area-food">
-        <p>エサを置く</p>
-        <ul>
-          <li>
-            <input type="checkbox" id="food01" name="scales" checked v-model="showFood01" />
-            <label for="food01">えさ1</label>
-          </li>
-          <li>
-            <input type="checkbox" id="food02" name="scales" checked v-model="showFood02" />
-            <label for="food02">えさ2</label>
-          </li>
-          <li>
-            <input type="checkbox" id="food03" name="scales" checked v-model="showFood03" />
-            <label for="food03">えさ3</label>
-          </li>
-        </ul>
-      </div>
+      <section>
+        <p v-bind:style="{ display: 'inline-block', catBodyColor: catBodyColor }"></p>
+        <p class="text01"><span v-if="name">{{ name }} です！</span><span v-else>おなまえを入力してください。</span></p>
+        <p><input type="text" v-model="name" class="input-name"></p>
+        
+        <!-- <div class="area-turn">
+          <p>回してみる</p>
+          <input type="range" name="range" v-model="rotate" min="0" step="0.01" max="1">
+          <p>{{ rotate }} turn</p>
+        </div> -->
 
-      <div class="area-color">
-        <p class="text-picker">壁紙を変える</p>
-        <input type="color" name="color" v-model="backgroundColor">
-        <p class="color-code">カラーコード: {{ backgroundColor }}</p>
-      </div>
+        <div class="area-color">
+          <p class="text-picker">カラーピッカーで毛色を選択する</p>
+          <input type="color" name="color" v-model="catBodyColor">
+          <p class="color-code">カラーコード: {{ catBodyColor }}</p>
+        </div>
 
-      <button @click="resetButton">リセットする</button>
+        <div class="area-food">
+          <p>エサを置く</p>
+          <ul>
+            <li>
+              <input type="checkbox" id="food01" name="scales" checked v-model="showFood01" />
+              <label for="food01">えさ1</label>
+            </li>
+            <li>
+              <input type="checkbox" id="food02" name="scales" checked v-model="showFood02" />
+              <label for="food02">えさ2</label>
+            </li>
+            <li>
+              <input type="checkbox" id="food03" name="scales" checked v-model="showFood03" />
+              <label for="food03">えさ3</label>
+            </li>
+          </ul>
+        </div>
 
+        <div class="area-color">
+          <p class="text-picker">壁紙を変える</p>
+          <input type="color" name="color" v-model="backgroundColor">
+          <p class="color-code">カラーコード: {{ backgroundColor }}</p>
+        </div>
+
+        <button @click="resetButton">リセットする</button>
+      </section>
     </div>
+
   </main>
 </template>
 <!-- v-model を使用してデータバインディングを行う。 -->
@@ -91,7 +97,7 @@ h2 {
   margin: 0 auto 40px;
 }
 main {
-  max-width: 600px;
+  max-width: 800px;
   padding: 0 20px;
   margin: 0 auto;
 }
@@ -99,6 +105,10 @@ header {
   position: absolute;
   top: 12px;
   left: 12px;
+}
+.content {
+  display: flex;
+  justify-content: space-between;
 }
 .input-name {
   border: 2px solid #dadada;
@@ -111,8 +121,7 @@ header {
 }
 .image-cat {
   position: absolute;
-  width: 200px;
-  height: 200px;
+  width: 280px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -125,6 +134,21 @@ header {
 }
 .color-code {
   font-size: 13px;
+}
+.food01, .food02, .food03 {
+  position: absolute;
+}
+.food01 {
+  bottom: 20px;
+  left: 10px;
+}
+.food02 {
+  bottom: 25px;
+  left: 80px;
+}
+.food03 {
+  bottom: 30px;
+  right: 30px;
 }
 .area-cat {
   width: 320px;
