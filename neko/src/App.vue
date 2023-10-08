@@ -33,15 +33,16 @@ const resetButton = () => {
       <section>
         <div class="area-cat" v-bind:style="{backgroundColor: backgroundColor}">
           <CatImageSVGComponent class="image-cat" v-bind:style="{fill: catBodyColor, stroke: '#000'}" />
-          <p v-if="showFood01" class="food01">えさ１</p>
-          <p v-if="showFood02" class="food02">えさ２</p>
-          <p v-if="showFood03" class="food03">えさ３</p>
+          <img v-if="showFood01" class="food01" src="./assets/img/image-food01.svg" alt="" />
+          <img v-if="showFood02" class="food02" src="./assets/img/image-food02.svg" alt="" />
+          <img v-if="showFood03" class="food03" src="./assets/img/image-food03.svg" alt="" />
+          <p class="text01"><span v-if="name">{{ name }} です！</span><span v-else></span></p>
         </div>
       </section>
 
       <section>
         <p v-bind:style="{ display: 'inline-block', catBodyColor: catBodyColor }"></p>
-        <p class="text01"><span v-if="name">{{ name }} です！</span><span v-else>おなまえを入力してください。</span></p>
+        <p class="text01"><span v-if="name"></span><span v-else>なまえを入力する</span></p>
         <p><input type="text" v-model="name" class="input-name"></p>
         
         <!-- <div class="area-turn">
@@ -57,19 +58,19 @@ const resetButton = () => {
         </div>
 
         <div class="area-food">
-          <p>エサを置く</p>
-          <ul>
+          <p>好きなエサを置いてください</p>
+          <ul class="list-foods">
             <li>
               <input type="checkbox" id="food01" name="scales" checked v-model="showFood01" />
-              <label for="food01">えさ1</label>
+              <label for="food01">ネコプチ | おいしい煮干しセット</label>
             </li>
             <li>
               <input type="checkbox" id="food02" name="scales" checked v-model="showFood02" />
-              <label for="food02">えさ2</label>
+              <label for="food02">金のスプーン | ささみたっぷり味わいブレンド</label>
             </li>
             <li>
               <input type="checkbox" id="food03" name="scales" checked v-model="showFood03" />
-              <label for="food03">えさ3</label>
+              <label for="food03">ネコチャーム | にゃんともおいしいかつお入りフード</label>
             </li>
           </ul>
         </div>
@@ -127,10 +128,11 @@ header {
   transform: translate(-50%, -50%);
 }
 .text01 {
-  margin: 0 auto 14px;
+  margin: 0 auto 10px;
+  height: 22px;
 }
 .text-picker {
-  margin: 0 auto 14px;
+  margin: 0 auto 10px;
 }
 .color-code {
   font-size: 13px;
@@ -140,26 +142,31 @@ header {
 }
 .food01 {
   bottom: 20px;
-  left: 10px;
+  right: 10px;
+  width: 70px;
 }
 .food02 {
   bottom: 25px;
-  left: 80px;
+  left: 140px;
+  width: 60px;
 }
 .food03 {
-  bottom: 30px;
-  right: 30px;
+  bottom: 8px;
+  left: 10px;
+  width: 70px;
 }
 .area-cat {
   width: 320px;
   height: 320px;
   margin: 0 auto;
   padding: 10px;
-  border: 1px solid #ddd;
   position: relative;
 }
 .area-turn, .area-food {
   margin: 0 auto 40px;
+}
+.list-foods input, .list-foods label {
+  cursor: pointer;
 }
 input[type="color"] {
   border: none;
