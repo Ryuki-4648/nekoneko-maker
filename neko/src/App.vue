@@ -10,6 +10,9 @@ const backgroundColor = ref('#fee1e1');
 const showFood01 = ref(false);
 const showFood02 = ref(false);
 const showFood03 = ref(false);
+const openEyes = ref(true);
+const closeEyes = ref(false);
+const eyeState = ref('openEyes');
 const resetButton = () => {
   name.value = '';
   catBodyColor.value = '#fafafa';
@@ -17,6 +20,8 @@ const resetButton = () => {
   showFood01.value = false;
   showFood02.value = false;
   showFood03.value = false;
+  openEyes.value = true;
+  closeEyes.value = false;
 }
 </script>
 <!-- script setup コンポーネントのロジックを設定 -->
@@ -36,6 +41,9 @@ const resetButton = () => {
           <img v-if="showFood01" class="food01" src="./assets/img/image-food01.svg" alt="" />
           <img v-if="showFood02" class="food02" src="./assets/img/image-food02.svg" alt="" />
           <img v-if="showFood03" class="food03" src="./assets/img/image-food03.svg" alt="" />
+          <img class="cat-parts01" src="./assets/img/image-cat01.svg" alt="" />
+          <img v-if="eyeState === 'openEyes'" class="cat-parts02" src="./assets/img/image-cat02.svg" alt="" />
+          <img v-if="eyeState === 'closeEyes'" class="cat-parts03" src="./assets/img/image-cat03.svg" alt="" />
           <p class="text01"><span v-if="name">{{ name }} です！</span><span v-else></span></p>
         </div>
       </section>
@@ -71,6 +79,20 @@ const resetButton = () => {
             <li>
               <input type="checkbox" id="food03" name="scales" checked v-model="showFood03" />
               <label for="food03">ネコチャーム | にゃんともおいしいかつお入りフード</label>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <p>眠気具合を選ぶ</p>
+          <ul class="list-face">
+            <li>
+              <input type="radio" id="openEyes" name="eyeState" value="openEyes" checked v-model="eyeState" />
+              <label for="openEyes">ねむくない</label>
+            </li>
+            <li>
+              <input type="radio" id="closeEyes" name="eyeState" value="closeEyes" v-model="eyeState" />
+              <label for="closeEyes">ねむい</label>
             </li>
           </ul>
         </div>
@@ -155,6 +177,25 @@ header {
   left: 10px;
   width: 70px;
 }
+.cat-parts01, .cat-parts02, .cat-parts03 {
+  position: absolute;
+  z-index: 10;
+}
+.cat-parts01 {
+  width: 20px;
+  left: 92px;
+  top: 133px;
+}
+.cat-parts02 {
+  width: 30px;
+  left: 88px;
+  top: 124px;
+}
+.cat-parts03 {
+  width: 30px;
+  left: 88px;
+  top: 126px;
+}
 .area-cat {
   width: 320px;
   height: 320px;
@@ -165,7 +206,7 @@ header {
 .area-turn, .area-food {
   margin: 0 auto 40px;
 }
-.list-foods input, .list-foods label {
+.list-foods input, .list-foods label, .list-face label {
   cursor: pointer;
 }
 input[type="color"] {
