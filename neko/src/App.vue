@@ -4,15 +4,29 @@ import { ref } from 'vue';
 import CatImageSVGComponent from './components/CatImage.vue'
 
 const name = ref('');
+const isCatNameTooLong = ref(false);
+
+const checkCatNameLength = () => {
+  name.value = name.value.slice(0, 13); // 13文字を超える部分を削除
+  if (name.value.length > 13) {
+    isCatNameTooLong.value = true;
+  } else {
+    isCatNameTooLong.value = false;
+  }
+};
+
 // const rotate = ref(0);
 const catBodyColor = ref('#fafafa');
 const backgroundColor = ref('#fee1e1');
+
 const showFood01 = ref(false);
 const showFood02 = ref(false);
 const showFood03 = ref(false);
+
 const openEyes = ref(true);
 const closeEyes = ref(false);
 const eyeState = ref('openEyes');
+
 const resetButton = () => {
   name.value = '';
   catBodyColor.value = '#fafafa';
@@ -44,66 +58,71 @@ const resetButton = () => {
           <img class="cat-parts01" src="./assets/img/image-cat01.svg" alt="" />
           <img v-if="eyeState === 'openEyes'" class="cat-parts02" src="./assets/img/image-cat02.svg" alt="" />
           <img v-if="eyeState === 'closeEyes'" class="cat-parts03" src="./assets/img/image-cat03.svg" alt="" />
-          <p class="text01"><span v-if="name">{{ name }} です！</span><span v-else></span></p>
+        </div>
+        <div class="area-text-name">
+          <p v-if="name" class="text01 text-name">{{ name }}</p><p v-else></p>
         </div>
       </section>
 
-      <section>
-        <p v-bind:style="{ display: 'inline-block', catBodyColor: catBodyColor }"></p>
-        <p class="text01"><span v-if="name"></span><span v-else>なまえを入力する</span></p>
-        <p><input type="text" v-model="name" class="input-name"></p>
-        
-        <!-- <div class="area-turn">
-          <p>回してみる</p>
-          <input type="range" name="range" v-model="rotate" min="0" step="0.01" max="1">
-          <p>{{ rotate }} turn</p>
-        </div> -->
+      <section class="detail">
+        <div class="detail-box">
+          <p v-bind:style="{ display: 'inline-block', catBodyColor: catBodyColor }"></p>
+          <p class="text01">なまえを入力する（13文字以内）</p>
+          <p><input type="text" v-model="name" class="input-name" @input="checkCatNameLength"></p>
+          <p class="text-alert" v-if="isCatNameTooLong">13文字以内で入力してください。</p>
+          
+          <!-- <div class="area-turn">
+            <p>回してみる</p>
+            <input type="range" name="range" v-model="rotate" min="0" step="0.01" max="1">
+            <p>{{ rotate }} turn</p>
+          </div> -->
 
-        <div class="area-color">
-          <p class="text-picker">カラーピッカーで毛色を選択する</p>
-          <input type="color" name="color" v-model="catBodyColor">
-          <p class="color-code">カラーコード: {{ catBodyColor }}</p>
+          <div class="area-color">
+            <p class="text-picker">カラーピッカーで毛色を選択する</p>
+            <input type="color" name="color" v-model="catBodyColor">
+            <p class="color-code">カラーコード: {{ catBodyColor }}</p>
+          </div>
+
+          <div class="area-food">
+            <p>好きなエサを置いてください</p>
+            <ul class="list-foods">
+              <li>
+                <input type="checkbox" id="food01" name="scales" checked v-model="showFood01" />
+                <label for="food01">ネコプチ | おいしい煮干しセット</label>
+              </li>
+              <li>
+                <input type="checkbox" id="food02" name="scales" checked v-model="showFood02" />
+                <label for="food02">金のスプーン | ささみたっぷり味わいブレンド</label>
+              </li>
+              <li>
+                <input type="checkbox" id="food03" name="scales" checked v-model="showFood03" />
+                <label for="food03">ネコチャーム | にゃんともおいしいかつお入りフード</label>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <p>眠気具合を選ぶ</p>
+            <ul class="list-face">
+              <li>
+                <input type="radio" id="openEyes" name="eyeState" value="openEyes" checked v-model="eyeState" />
+                <label for="openEyes">ねむくない</label>
+              </li>
+              <li>
+                <input type="radio" id="closeEyes" name="eyeState" value="closeEyes" v-model="eyeState" />
+                <label for="closeEyes">ねむい</label>
+              </li>
+            </ul>
+          </div>
+
+          <div class="area-color">
+            <p class="text-picker">壁紙を変える</p>
+            <input type="color" name="color" v-model="backgroundColor">
+            <p class="color-code">カラーコード: {{ backgroundColor }}</p>
+          </div>
+
+          <button @click="resetButton">リセットする</button>
         </div>
-
-        <div class="area-food">
-          <p>好きなエサを置いてください</p>
-          <ul class="list-foods">
-            <li>
-              <input type="checkbox" id="food01" name="scales" checked v-model="showFood01" />
-              <label for="food01">ネコプチ | おいしい煮干しセット</label>
-            </li>
-            <li>
-              <input type="checkbox" id="food02" name="scales" checked v-model="showFood02" />
-              <label for="food02">金のスプーン | ささみたっぷり味わいブレンド</label>
-            </li>
-            <li>
-              <input type="checkbox" id="food03" name="scales" checked v-model="showFood03" />
-              <label for="food03">ネコチャーム | にゃんともおいしいかつお入りフード</label>
-            </li>
-          </ul>
-        </div>
-
-        <div>
-          <p>眠気具合を選ぶ</p>
-          <ul class="list-face">
-            <li>
-              <input type="radio" id="openEyes" name="eyeState" value="openEyes" checked v-model="eyeState" />
-              <label for="openEyes">ねむくない</label>
-            </li>
-            <li>
-              <input type="radio" id="closeEyes" name="eyeState" value="closeEyes" v-model="eyeState" />
-              <label for="closeEyes">ねむい</label>
-            </li>
-          </ul>
-        </div>
-
-        <div class="area-color">
-          <p class="text-picker">壁紙を変える</p>
-          <input type="color" name="color" v-model="backgroundColor">
-          <p class="color-code">カラーコード: {{ backgroundColor }}</p>
-        </div>
-
-        <button @click="resetButton">リセットする</button>
       </section>
     </div>
 
@@ -120,7 +139,7 @@ h2 {
   margin: 0 auto 40px;
 }
 main {
-  max-width: 800px;
+  max-width: 850px;
   padding: 0 20px;
   margin: 0 auto;
 }
@@ -152,6 +171,23 @@ header {
 .text01 {
   margin: 0 auto 10px;
   height: 22px;
+}
+.area-text-name {
+  margin: 36px auto 0;
+  border: 3px solid #161616;
+  border-radius: 30px;
+  height: 48px;
+  width: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 4px;
+}
+.text-name {
+  font-size: 1.3rem;
+  font-weight: bold;
+  text-align: center;
+
 }
 .text-picker {
   margin: 0 auto 10px;
@@ -199,11 +235,12 @@ header {
 .area-cat {
   width: 320px;
   height: 320px;
-  margin: 0 auto;
   padding: 10px;
   position: relative;
+  border: 3px solid #161616;
+  border-radius: 20px;
 }
-.area-turn, .area-food {
+.area-turn, .area-food, .area-cat, .area-color {
   margin: 0 auto 40px;
 }
 .list-foods input, .list-foods label, .list-face label {
@@ -222,5 +259,12 @@ input[type="color"] {
   stroke-linecap:round;
   stroke-linejoin:round;
   stroke-width:6px;
+}
+.detail {
+  overflow-y: scroll;
+}
+.detail-box {
+  height: 400px;
+  padding: 0 20px 0 0;
 }
 </style>
