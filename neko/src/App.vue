@@ -27,6 +27,8 @@ const openEyes = ref(true);
 const closeEyes = ref(false);
 const eyeState = ref('openEyes');
 
+const icon01 = ref(false);
+
 const resetButton = () => {
   name.value = '';
   catBodyColor.value = '#fafafa';
@@ -36,6 +38,10 @@ const resetButton = () => {
   showFood03.value = false;
   openEyes.value = true;
   closeEyes.value = false;
+}
+
+const handleMouseHover = () => {
+  icon01.value = true;
 }
 </script>
 <!-- script setup コンポーネントのロジックを設定 -->
@@ -51,13 +57,14 @@ const resetButton = () => {
     <div class="content">
       <section>
         <div class="area-cat" v-bind:style="{backgroundColor: backgroundColor}">
-          <CatImageSVGComponent class="image-cat" v-bind:style="{fill: catBodyColor, stroke: '#000'}" />
+          <CatImageSVGComponent class="image-cat" v-bind:style="{fill: catBodyColor, stroke: '#000'}" @mouseover="handleMouseHover" />
           <img v-if="showFood01" class="food01" src="./assets/img/image-food01.svg" alt="" />
           <img v-if="showFood02" class="food02" src="./assets/img/image-food02.svg" alt="" />
           <img v-if="showFood03" class="food03" src="./assets/img/image-food03.svg" alt="" />
           <img class="cat-parts01" src="./assets/img/image-cat01.svg" alt="" />
           <img v-if="eyeState === 'openEyes'" class="cat-parts02" src="./assets/img/image-cat02.svg" alt="" />
           <img v-if="eyeState === 'closeEyes'" class="cat-parts03" src="./assets/img/image-cat03.svg" alt="" />
+          <img v-if="icon01" class="icon01" src="./assets/img/icon01.svg" />
         </div>
         <div class="area-text-name">
           <p v-if="name" class="text01 text-name">{{ name }}</p><p v-else></p>
@@ -65,63 +72,65 @@ const resetButton = () => {
       </section>
 
       <section class="detail">
-        <div class="detail-box">
-          <p v-bind:style="{ display: 'inline-block', catBodyColor: catBodyColor }"></p>
-          <p class="text01">なまえを入力する（13文字以内）</p>
-          <p><input type="text" v-model="name" class="input-name" @input="checkCatNameLength"></p>
-          <p class="text-alert" v-if="isCatNameTooLong">13文字以内で入力してください。</p>
-          
-          <!-- <div class="area-turn">
-            <p>回してみる</p>
-            <input type="range" name="range" v-model="rotate" min="0" step="0.01" max="1">
-            <p>{{ rotate }} turn</p>
-          </div> -->
+        <div class="detail-scroll">
+          <div class="detail-box">
+            <p v-bind:style="{ display: 'inline-block', catBodyColor: catBodyColor }"></p>
+            <p class="text01">なまえを入力する（13文字以内）</p>
+            <p><input type="text" v-model="name" class="input-name" @input="checkCatNameLength"></p>
+            <p class="text-alert" v-if="isCatNameTooLong">13文字以内で入力してください。</p>
+            
+            <!-- <div class="area-turn">
+              <p>回してみる</p>
+              <input type="range" name="range" v-model="rotate" min="0" step="0.01" max="1">
+              <p>{{ rotate }} turn</p>
+            </div> -->
 
-          <div class="area-color">
-            <p class="text-picker">カラーピッカーで毛色を選択する</p>
-            <input type="color" name="color" v-model="catBodyColor">
-            <p class="color-code">カラーコード: {{ catBodyColor }}</p>
+            <div class="area-color">
+              <p class="text-picker">カラーピッカーで毛色を選択する</p>
+              <input type="color" name="color" v-model="catBodyColor">
+              <p class="color-code">カラーコード: {{ catBodyColor }}</p>
+            </div>
+
+            <div class="area-food">
+              <p>好きなエサを置いてください</p>
+              <ul class="list-foods">
+                <li>
+                  <input type="checkbox" id="food01" name="scales" checked v-model="showFood01" />
+                  <label for="food01">ネコプチ | おいしい煮干しセット</label>
+                </li>
+                <li>
+                  <input type="checkbox" id="food02" name="scales" checked v-model="showFood02" />
+                  <label for="food02">金のスプーン | ささみたっぷり味わいブレンド</label>
+                </li>
+                <li>
+                  <input type="checkbox" id="food03" name="scales" checked v-model="showFood03" />
+                  <label for="food03">ネコチャーム | にゃんともおいしいかつお入りフード</label>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <p>眠気具合を選ぶ</p>
+              <ul class="list-face">
+                <li>
+                  <input type="radio" id="openEyes" name="eyeState" value="openEyes" checked v-model="eyeState" />
+                  <label for="openEyes">ねむくない</label>
+                </li>
+                <li>
+                  <input type="radio" id="closeEyes" name="eyeState" value="closeEyes" v-model="eyeState" />
+                  <label for="closeEyes">ねむい</label>
+                </li>
+              </ul>
+            </div>
+
+            <div class="area-color">
+              <p class="text-picker">壁紙を変える</p>
+              <input type="color" name="color" v-model="backgroundColor">
+              <p class="color-code">カラーコード: {{ backgroundColor }}</p>
+            </div>
+
+            <button @click="resetButton" class="button-reset">リセットする</button>
           </div>
-
-          <div class="area-food">
-            <p>好きなエサを置いてください</p>
-            <ul class="list-foods">
-              <li>
-                <input type="checkbox" id="food01" name="scales" checked v-model="showFood01" />
-                <label for="food01">ネコプチ | おいしい煮干しセット</label>
-              </li>
-              <li>
-                <input type="checkbox" id="food02" name="scales" checked v-model="showFood02" />
-                <label for="food02">金のスプーン | ささみたっぷり味わいブレンド</label>
-              </li>
-              <li>
-                <input type="checkbox" id="food03" name="scales" checked v-model="showFood03" />
-                <label for="food03">ネコチャーム | にゃんともおいしいかつお入りフード</label>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <p>眠気具合を選ぶ</p>
-            <ul class="list-face">
-              <li>
-                <input type="radio" id="openEyes" name="eyeState" value="openEyes" checked v-model="eyeState" />
-                <label for="openEyes">ねむくない</label>
-              </li>
-              <li>
-                <input type="radio" id="closeEyes" name="eyeState" value="closeEyes" v-model="eyeState" />
-                <label for="closeEyes">ねむい</label>
-              </li>
-            </ul>
-          </div>
-
-          <div class="area-color">
-            <p class="text-picker">壁紙を変える</p>
-            <input type="color" name="color" v-model="backgroundColor">
-            <p class="color-code">カラーコード: {{ backgroundColor }}</p>
-          </div>
-
-          <button @click="resetButton">リセットする</button>
         </div>
       </section>
     </div>
@@ -148,6 +157,11 @@ header {
   top: 12px;
   left: 12px;
 }
+.logo {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+}
 .content {
   display: flex;
   justify-content: space-between;
@@ -167,6 +181,7 @@ header {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  cursor: pointer;
 }
 .text01 {
   margin: 0 auto 10px;
@@ -218,18 +233,18 @@ header {
   z-index: 10;
 }
 .cat-parts01 {
-  width: 20px;
+  width: 18px;
   left: 92px;
-  top: 133px;
+  top: 134px;
 }
 .cat-parts02 {
-  width: 30px;
-  left: 88px;
+  width: 34px;
+  left: 85px;
   top: 124px;
 }
 .cat-parts03 {
-  width: 30px;
-  left: 88px;
+  width: 34px;
+  left: 85px;
   top: 126px;
 }
 .area-cat {
@@ -261,10 +276,38 @@ input[type="color"] {
   stroke-width:6px;
 }
 .detail {
+  border: 3px solid #161616;
+  border-radius: 20px;
+  padding: 16px 16px 16px 0;
+}
+.detail-scroll {
   overflow-y: scroll;
 }
 .detail-box {
   height: 400px;
-  padding: 0 20px 0 0;
+  padding: 0 20px;
+}
+.button-reset {
+  width: 160px;
+  height: 36px;
+  border: none;
+  background-color: #dadada;
+  margin-bottom: 40px;
+}
+.detail-scroll::-webkit-scrollbar {
+  width: 14px;
+  border-radius: 10px;
+}
+.detail-scroll::-webkit-scrollbar-track {
+  background-color: #eaeaea;
+}
+.detail-scroll::-webkit-scrollbar-thumb {
+  background-color: #fee1e1;
+}
+.icon01 {
+  width: 20px;
+  position: absolute;
+  left: 24px;
+  top: 86px;
 }
 </style>
