@@ -15,19 +15,19 @@ const checkCatNameLength = () => {
   }
 };
 
-// const rotate = ref(0);
+// カラー
 const catBodyColor = ref('#fafafa');
 const backgroundColor = ref('#fee1e1');
 
+// エサを置く
 const showFood01 = ref(false);
 const showFood02 = ref(false);
 const showFood03 = ref(false);
 
+// ねこの顔
 const openEyes = ref(true);
 const closeEyes = ref(false);
 const eyeState = ref('openEyes');
-
-const icon01 = ref(false);
 
 const resetButton = () => {
   name.value = '';
@@ -40,9 +40,15 @@ const resetButton = () => {
   closeEyes.value = false;
 }
 
-const handleMouseHover = () => {
-  icon01.value = true;
-}
+// ご機嫌モード（ねこ3回クリックで音符が出る）
+const imageCatClickCount = ref(0);
+const icon01 = ref(false);
+const handleImageCatClick = () => {
+  imageCatClickCount.value++;
+  if (imageCatClickCount.value >= 3) {
+    icon01.value = true;
+  }
+};
 </script>
 <!-- script setup コンポーネントのロジックを設定 -->
 
@@ -57,7 +63,11 @@ const handleMouseHover = () => {
     <div class="content">
       <section>
         <div class="area-cat" v-bind:style="{backgroundColor: backgroundColor}">
-          <CatImageSVGComponent class="image-cat" v-bind:style="{fill: catBodyColor, stroke: '#000'}" @mouseover="handleMouseHover" />
+          <CatImageSVGComponent
+            class="image-cat"
+            v-bind:style="{fill: catBodyColor, stroke: '#000'}"
+            @click="handleImageCatClick"
+          />
           <img v-if="showFood01" class="food01" src="./assets/img/image-food01.svg" alt="" />
           <img v-if="showFood02" class="food02" src="./assets/img/image-food02.svg" alt="" />
           <img v-if="showFood03" class="food03" src="./assets/img/image-food03.svg" alt="" />
@@ -66,6 +76,11 @@ const handleMouseHover = () => {
           <img v-if="eyeState === 'closeEyes'" class="cat-parts03" src="./assets/img/image-cat03.svg" alt="" />
           <img v-if="icon01" class="icon01" src="./assets/img/icon01.svg" />
         </div>
+        <ul class="list-toys">
+          <li class="item-toys01"><img src="./assets/img/toy01.png" /></li>
+          <li class="item-toys02"><img src="./assets/img/toy02.png" /></li>
+          <li class="item-toys03"><img src="./assets/img/toy03.png" /></li>
+        </ul>
         <div class="area-text-name">
           <p v-if="name" class="text01 text-name">{{ name }}</p><p v-else></p>
         </div>
@@ -188,7 +203,7 @@ header {
   height: 22px;
 }
 .area-text-name {
-  margin: 36px auto 0;
+  margin: 20px auto 0;
   border: 3px solid #161616;
   border-radius: 30px;
   height: 48px;
@@ -255,7 +270,10 @@ header {
   border: 3px solid #161616;
   border-radius: 20px;
 }
-.area-turn, .area-food, .area-cat, .area-color {
+.area-cat {
+  margin: 0 auto 20px;
+}
+.area-turn, .area-food, .area-color {
   margin: 0 auto 40px;
 }
 .list-foods input, .list-foods label, .list-face label {
@@ -309,5 +327,33 @@ input[type="color"] {
   position: absolute;
   left: 24px;
   top: 86px;
+}
+.list-toys {
+  display: flex;
+  justify-content: space-between;
+}
+.list-toys li {
+  border-radius: 50%;
+  border: 3px solid #161616;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fee1e1;
+  cursor: pointer;
+  transition: all .3s;
+}
+.list-toys li:hover {
+  background-color: #f5c2c2;
+}
+.item-toys01 img {
+  width: 20px;
+}
+.item-toys02 img {
+  width: 50px;
+}
+.item-toys03 img {
+  width: 50px;
 }
 </style>
