@@ -38,6 +38,7 @@ const resetButton = () => {
   showFood03.value = false;
   openEyes.value = true;
   closeEyes.value = false;
+  showToy01.value = false;
 }
 
 // ご機嫌モード（ねこ3回クリックで音符が出る）
@@ -49,6 +50,12 @@ const handleImageCatClick = () => {
     icon01.value = true;
   }
 };
+
+// おもちゃのボタン
+const showToy01 = ref(false);
+const handleToyButton01 = () => {
+  showToy01.value = true;
+}
 </script>
 <!-- script setup コンポーネントのロジックを設定 -->
 
@@ -61,7 +68,7 @@ const handleImageCatClick = () => {
     <PageTitle msg="ねこねこメーカー" />
 
     <div class="content">
-      <section>
+      <section class="drawing">
         <div class="area-cat" v-bind:style="{backgroundColor: backgroundColor}">
           <CatImageSVGComponent
             class="image-cat"
@@ -75,14 +82,15 @@ const handleImageCatClick = () => {
           <img v-if="eyeState === 'openEyes'" class="cat-parts02" src="./assets/img/image-cat02.svg" alt="" />
           <img v-if="eyeState === 'closeEyes'" class="cat-parts03" src="./assets/img/image-cat03.svg" alt="" />
           <img v-if="icon01" class="icon01" src="./assets/img/icon01.svg" />
+          <img v-if="showToy01" src="./assets/img/toy01.png" class="image-toy01" />
         </div>
         <ul class="list-toys">
-          <li class="item-toys01"><img src="./assets/img/toy01.png" /></li>
+          <li class="item-toys01" @click="handleToyButton01"><img src="./assets/img/toy01.png" /></li>
           <li class="item-toys02"><img src="./assets/img/toy02.png" /></li>
           <li class="item-toys03"><img src="./assets/img/toy03.png" /></li>
         </ul>
         <div class="area-text-name">
-          <p v-if="name" class="text01 text-name">{{ name }}</p><p v-else></p>
+          <p v-if="name" class="text-name">{{ name }}</p><p v-else></p>
         </div>
       </section>
 
@@ -101,13 +109,13 @@ const handleImageCatClick = () => {
             </div> -->
 
             <div class="area-color">
-              <p class="text-picker">カラーピッカーで毛色を選択する</p>
+              <p class="text-picker text01">カラーピッカーで毛色を選択する</p>
               <input type="color" name="color" v-model="catBodyColor">
               <p class="color-code">カラーコード: {{ catBodyColor }}</p>
             </div>
 
             <div class="area-food">
-              <p>好きなエサを置いてください</p>
+              <p class="text01">好きなエサを置く</p>
               <ul class="list-foods">
                 <li>
                   <input type="checkbox" id="food01" name="scales" checked v-model="showFood01" />
@@ -125,7 +133,7 @@ const handleImageCatClick = () => {
             </div>
 
             <div>
-              <p>眠気具合を選ぶ</p>
+              <p class="text01">眠気具合を選ぶ</p>
               <ul class="list-face">
                 <li>
                   <input type="radio" id="openEyes" name="eyeState" value="openEyes" checked v-model="eyeState" />
@@ -199,8 +207,10 @@ header {
   cursor: pointer;
 }
 .text01 {
-  margin: 0 auto 10px;
-  height: 22px;
+  margin: 0 auto 8px;
+  font-size: .95rem;
+  font-weight: bold;
+  letter-spacing: .03em;
 }
 .area-text-name {
   margin: 20px auto 0;
@@ -309,8 +319,13 @@ input[type="color"] {
   width: 160px;
   height: 36px;
   border: none;
-  background-color: #dadada;
+  background-color: #eaeaea;
   margin-bottom: 40px;
+  cursor: pointer;
+  transition: all .3s;
+}
+.button-reset:hover {
+  background-color: #dadada;
 }
 .detail-scroll::-webkit-scrollbar {
   width: 14px;
@@ -355,5 +370,32 @@ input[type="color"] {
 }
 .item-toys03 img {
   width: 50px;
+}
+.image-toy01 {
+  position: absolute;
+  left: 40px;
+  top: 130px;
+  width: 30px;
+  animation: toy01animation 2s linear infinite;
+}
+@keyframes toy01animation {
+  0% , 100%{
+    transform: rotate(10deg);
+  }
+  50%{
+    transform: rotate(-10deg);
+  }
+}
+@media screen and (max-width: 900px) {
+  .drawing {
+    width: 320px;
+    margin: 0 auto 30px;
+  }
+  .content {
+    flex-wrap: wrap;
+  }
+  .detail {
+    width: 100%;
+  }
 }
 </style>
