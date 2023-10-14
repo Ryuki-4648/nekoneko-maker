@@ -1,8 +1,10 @@
+<!-- script setup コンポーネントのロジックを設定 -->
 <script setup>
 import PageTitle from './components/PageTitle.vue'
 import { ref } from 'vue';
 import CatImageSVGComponent from './components/CatImage.vue'
 
+// ねこの名前
 const name = ref('');
 const isCatNameTooLong = ref(false);
 
@@ -29,6 +31,7 @@ const openEyes = ref(true);
 const closeEyes = ref(false);
 const eyeState = ref('openEyes');
 
+// リセットボタン
 const resetButton = () => {
   name.value = '';
   catBodyColor.value = '#fafafa';
@@ -53,11 +56,18 @@ const handleImageCatClick = () => {
 
 // おもちゃのボタン
 const showToy01 = ref(false);
+const showToy02 = ref(false);
+const showToy03 = ref(false);
 const handleToyButton01 = () => {
-  showToy01.value = true;
+  showToy01.value = !showToy01.value;
+}
+const handleToyButton02 = () => {
+  showToy02.value = !showToy02.value;
+}
+const handleToyButton03 = () => {
+  showToy03.value = !showToy03.value;
 }
 </script>
-<!-- script setup コンポーネントのロジックを設定 -->
 
 <template>
   <header>
@@ -83,11 +93,13 @@ const handleToyButton01 = () => {
           <img v-if="eyeState === 'closeEyes'" class="cat-parts03" src="./assets/img/image-cat03.svg" alt="" />
           <img v-if="icon01" class="icon01" src="./assets/img/icon01.svg" />
           <img v-if="showToy01" src="./assets/img/toy01.png" class="image-toy01" />
+          <img v-if="showToy02" src="./assets/img/toy02.png" class="image-toy02" />
+          <img v-if="showToy03" src="./assets/img/toy03.png" class="image-toy03" />
         </div>
         <ul class="list-toys">
           <li class="item-toys01" @click="handleToyButton01"><img src="./assets/img/toy01.png" /></li>
-          <li class="item-toys02"><img src="./assets/img/toy02.png" /></li>
-          <li class="item-toys03"><img src="./assets/img/toy03.png" /></li>
+          <li class="item-toys02" @click="handleToyButton02"><img src="./assets/img/toy02.png" /></li>
+          <li class="item-toys03" @click="handleToyButton03"><img src="./assets/img/toy03.png" /></li>
         </ul>
         <div class="area-text-name">
           <p v-if="name" class="text-name">{{ name }}</p><p v-else></p>
@@ -277,10 +289,9 @@ header {
   height: 320px;
   padding: 10px;
   position: relative;
+  overflow: hidden;
   border: 3px solid #161616;
   border-radius: 20px;
-}
-.area-cat {
   margin: 0 auto 20px;
 }
 .area-turn, .area-food, .area-color {
@@ -384,6 +395,38 @@ input[type="color"] {
   }
   50%{
     transform: rotate(-10deg);
+  }
+}
+.image-toy02 {
+  position: absolute;
+  top: 40px;
+  right: 10px;
+  width: 40px;
+  z-index: 1;
+  animation: toy02animation 3s linear infinite;
+}
+@keyframes toy02animation {
+  0% {
+    transform: translateX(30px);
+  }
+  100% {
+    transform: translateX(-320px);
+  }
+}
+.image-toy03 {
+  position: absolute;
+  bottom: 40px;
+  right: 30px;
+  width: 50px;
+  z-index: 1;
+  animation: toy03animation 3s linear infinite;
+}
+@keyframes toy03animation {
+  0% {
+    transform: scale(1.0);
+  }
+  100% {
+    transform: scale(1.5);
   }
 }
 @media screen and (max-width: 900px) {
