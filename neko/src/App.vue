@@ -42,6 +42,7 @@ const resetButton = () => {
   openEyes.value = true;
   closeEyes.value = false;
   showToy01.value = false;
+  icon01.value = false;
 }
 
 // ご機嫌モード（ねこ3回クリックで音符が出る）
@@ -97,9 +98,9 @@ const handleToyButton03 = () => {
           <img v-if="showToy03" src="./assets/img/toy03.png" class="image-toy03" />
         </div>
         <ul class="list-toys">
-          <li class="item-toys01" @click="handleToyButton01"><img src="./assets/img/toy01.png" /></li>
-          <li class="item-toys02" @click="handleToyButton02"><img src="./assets/img/toy02.png" /></li>
-          <li class="item-toys03" @click="handleToyButton03"><img src="./assets/img/toy03.png" /></li>
+          <li class="item-toys01" @click="handleToyButton01" v-bind:style="{backgroundColor: backgroundColor}"><img src="./assets/img/toy01.png" /></li>
+          <li class="item-toys02" @click="handleToyButton02" v-bind:style="{backgroundColor: backgroundColor}"><img src="./assets/img/toy02.png" /></li>
+          <li class="item-toys03" @click="handleToyButton03" v-bind:style="{backgroundColor: backgroundColor}"><img src="./assets/img/toy03.png" /></li>
         </ul>
         <div class="area-text-name">
           <p v-if="name" class="text-name">{{ name }}</p><p v-else></p>
@@ -194,8 +195,9 @@ header {
 }
 .logo {
   position: fixed;
-  top: 12px;
-  left: 12px;
+  z-index: 11;
+  top: 18px;
+  left: 24px;
 }
 .content {
   display: flex;
@@ -415,18 +417,18 @@ input[type="color"] {
 }
 .image-toy03 {
   position: absolute;
-  bottom: 40px;
-  right: 30px;
+  bottom: 120px;
+  right: 100px;
   width: 50px;
   z-index: 1;
-  animation: toy03animation 3s linear infinite;
+  animation: toy03animation 4s linear infinite;
 }
 @keyframes toy03animation {
   0% {
-    transform: scale(1.0);
+    transform: scale(1.0) rotate(0);
   }
   100% {
-    transform: scale(1.5);
+    transform: scale(1.8) rotate(360deg);
   }
 }
 @media screen and (max-width: 900px) {
@@ -439,6 +441,19 @@ input[type="color"] {
   }
   .detail {
     width: 100%;
+  }
+  .logo {
+    width: 50px;
+    position: absolute;
+    top: -20px;
+    left: 0px;
+  }
+  .input-name {
+  height: 42px;
+  width: 100%;
+  border-radius: 30px;
+  padding: 2px 2px 2px 10px;
+  font-size: 1rem;
   }
 }
 </style>

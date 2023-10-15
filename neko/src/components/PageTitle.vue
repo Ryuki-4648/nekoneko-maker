@@ -8,7 +8,7 @@ defineProps({
 </script>
 
 <template>
-  <h1 class="green">{{ msg }}</h1>
+  <h1>{{ msg }}</h1>
   <h2>じぶんだけのオリジナルねこをつくろう。</h2>
 </template>
 
@@ -29,16 +29,12 @@ h2 {
   margin: 0 auto 40px;
   font-family: 'Cherry Bomb One', cursive;
 }
-
-.greetings h1,
-.greetings h3 {
-  text-align: center;
-}
-
-@media (min-width: 1024px) {
-  .greetings h1,
-  .greetings h3 {
-    text-align: left;
+@media screen and (max-width: 900px) {
+  h1 {
+    font-size: 2.4rem;
+  }
+  h2 {
+    font-size: 1.1rem;
   }
 }
 </style>
